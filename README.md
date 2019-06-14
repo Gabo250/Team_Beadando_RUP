@@ -1,1 +1,2 @@
-# Team_Beadando_RUP
+# Ez egy egyetemi beadandó, ami csapatban kellett csinálni
+# C# nyelv
