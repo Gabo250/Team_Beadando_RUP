@@ -1,0 +1,178 @@
+﻿<Window x:Class="OperatorWindow.OpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OperatorWindow"
+        mc:Ignorable="d"
+        Title="Operátori felület" Height="600" Width="600" Closing="bezar" >
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF4D4D4D" Offset="0.013"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Resources>
+        <local:BooltoStringConverter x:Key="bool"/>
+        <local:ButtonEnabledConverter x:Key="ButConv"/>
+        <local:KeszvanSzinConverter x:Key="color"/>
+        <local:StatusszinConverter x:Key="statuszcolor"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="tabControl" Margin="10,78,22,54">
+            <TabItem Header="Megrendelés" BorderBrush="#FF838282" Foreground="Black" Margin="0,0,-4,-2">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                    <ListBox x:Name="listBox" ItemsSource="{Binding Rendelesek}" HorizontalAlignment="Left" Height="274" Margin="10,10,0,0" VerticalAlignment="Top" Width="534" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Label ContentStringFormat="Megrendelő: {0}" Content="{Binding Rendelo}"/>
+                                    <Label Content="{Binding Status}" Foreground="{Binding Status, Converter={StaticResource statuszcolor}}"/>
+                                    <Label ContentStringFormat="Biciklik: {0} DB" Content="{Binding Bikemennyi}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button x:Name="button1" Content="Elvállal" HorizontalAlignment="Left" Margin="232,299,0,0" VerticalAlignment="Top" Width="96" Height="36" Foreground="White" Click="vallal" IsEnabled="{Binding ElementName=listBox, Path=SelectedIndex, Converter={StaticResource ButConv}}">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF8E938B" Offset="0"/>
+                                <GradientStop Color="#FFD9F1C9" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Alkatrészek" BorderBrush="#FF8F8F8F">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                    <GroupBox x:Name="gbox" Header="Raktárban lévő Alkatrészek" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="338" Width="534">
+                        <ListBox x:Name="listBox1" HorizontalAlignment="Left" Height="302" Margin="10,10,-2,0" VerticalAlignment="Top" Width="514" ItemsSource="{Binding Alkatreszek}" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <Label ContentStringFormat=" {0}:" Content="{Binding Megnevezes}"/>
+                                        <Label ContentStringFormat=" {0} DB" Content="{Binding Mennyi}"/>
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Elvállalt Biciklik" BorderBrush="#FF8F8F8F">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                    <ListBox x:Name="bikebox" HorizontalAlignment="Left" Height="336" Margin="29,10,0,0" VerticalAlignment="Top" Width="515" ItemsSource="{Binding Bikes}" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <WrapPanel>
+                                        <Label ContentStringFormat="Bicikli tipus: {0}" Content="{Binding Tipus}"/>
+                                        <Label Content="{Binding Keszvan, Converter={StaticResource bool}}" Foreground="{Binding Keszvan, Converter={StaticResource color}}"/>
+                                    </WrapPanel>                                    
+                                    <Label Content="Szükséges Alkatrészek:" Foreground="#FFE84040"/>
+                                    <ListView ItemsSource="{Binding Alkatreszek}" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" Height="150" Width="250">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <Label Content="{Binding Megnevezes}"/>
+                                                    <Label ContentStringFormat="Mennyiség: {0} DB" Content="{Binding Mennyi}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button x:Name="button3" Content="Kész" HorizontalAlignment="Left" Margin="199,359,0,0" VerticalAlignment="Top" Width="157" Height="40" Foreground="White" IsEnabled="{Binding ElementName=bikebox, Path=SelectedIndex, Converter={StaticResource ButConv}}" Click="kesz">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                <GradientStop Color="#FFFDFDFD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Üzenetek" BorderBrush="#FF8F8F8F">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                    <GroupBox x:Name="groupBox" Header="Bejövő Üzenetek" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="118" Width="395">
+                        <ListBox ItemsSource="{Binding Bejovouzenetek}" x:Name="listBox2" HorizontalAlignment="Left" Height="78" Margin="10,10,0,0" VerticalAlignment="Top" Width="356" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <WrapPanel>
+                                            <Label ContentStringFormat="Felado: {0}" Content="{Binding Felado}"/>
+                                            <Label Content="{Binding KuldesDatuma}"/>
+                                        </WrapPanel>
+                                        <Label ContentStringFormat="Üzenet: {0}" Content="{Binding Targy}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox_Copy" Header="Kimenő Üzenetek" HorizontalAlignment="Left" Margin="10,133,0,0" VerticalAlignment="Top" Height="123" Width="395">
+                        <ListBox ItemsSource="{Binding Kimenouzenetek}" x:Name="listBox3" HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" VerticalAlignment="Top" Width="355" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <WrapPanel>
+                                            <Label ContentStringFormat="Címzett: {0}" Content="{Binding Cimzett}"/>
+                                            <Label Content="{Binding KuldesDatuma}"/>
+                                        </WrapPanel>
+                                        <Label ContentStringFormat="Üzenet: {0}" Content="{Binding Targy}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox_Copy1" Header="Új üzenet" HorizontalAlignment="Left" Margin="10,256,0,0" VerticalAlignment="Top" Height="140" Width="395">
+                        <Grid>
+                            <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="62,10,0,0" VerticalAlignment="Top" Width="161" ItemsSource="{Binding Kolegak}"/>
+                            <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="71" Margin="62,37,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="218"/>
+                            <Label x:Name="label1" Content="Szöveg:" HorizontalAlignment="Left" Margin="8,37,0,0" VerticalAlignment="Top"/>
+                            <Label x:Name="label2" Content="Címzett:" HorizontalAlignment="Left" Margin="8,10,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="button2" Content="Küldés" HorizontalAlignment="Left" Margin="295,48,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.345,0.62" Height="37" Foreground="White" Click="Kuldes" IsEnabled="{Binding ElementName=comboBox, Path=SelectedIndex, Converter={StaticResource ButConv}}">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                        <GradientStop Color="#FFFDFDFD" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="label" Content="Név:" HorizontalAlignment="Left" Height="26.593" Margin="42.41,10,0,0" VerticalAlignment="Top" Width="52.354" Foreground="White"/>
+        <Label x:Name="label_Copy1" Content="{Binding Operator.Nev}" HorizontalAlignment="Left" Height="26.593" Margin="110.554,10,0,0" VerticalAlignment="Top" Width="143.767" Foreground="White"/>
+        <Label x:Name="label_Copy3" Content="Beosztás:" Height="26.593" Margin="0,10,175.63,0" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Width="63.157"/>
+        <Label x:Name="label_Copy4" Content="{Binding Operator.Privilege}" Height="26.593" Margin="0,10,44.354,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="115.512" Foreground="White"/>
+
+    </Grid>
+</Window>

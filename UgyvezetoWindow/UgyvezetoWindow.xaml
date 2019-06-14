@@ -1,0 +1,161 @@
+﻿<Window x:Class="UgyvezetoWindow.UgyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UgyvezetoWindow"
+        mc:Ignorable="d"
+        Title="Ügyvezetői felület" Height="743.75" Width="690.625" Closing="bezar">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF4D4D4D" Offset="0.013"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Window.Resources>
+        <local:StatusszinConverter x:Key="statuszcolor"/>
+        <local:ButtonEnabledConverter x:Key="butconv"/>
+        <local:CounttoBoolConverter x:Key="cbool"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl x:Name="tabControl" Margin="10,70,44,32">
+            <TabItem Header="Megrendelések" BorderBrush="#FF838282" Foreground="Black">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                    <ListBox x:Name="listBox" ItemsSource="{Binding Megrendelesek}" HorizontalAlignment="Left" Height="282" Margin="10,10,0,0" VerticalAlignment="Top" Width="477" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Label ContentStringFormat="Megrendelő: {0}" Content="{Binding Rendelo}"/>
+                                    <Label Content="{Binding Status}" Foreground="{Binding Status, Converter={StaticResource statuszcolor}}"/>
+                                    <Label ContentStringFormat="Biciklik: {0} DB" Content="{Binding Bikemennyi}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <GroupBox x:Name="groupBox" Header="Rendelés Felvétele" HorizontalAlignment="Left" Margin="10,297,0,0" VerticalAlignment="Top" Height="276" Width="477">
+                        <Label x:Name="label1" Content="Megrendelő:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    </GroupBox>
+                    <TextBox x:Name="rendelo" HorizontalAlignment="Left" Height="24" Margin="110,324,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="171"/>
+                    <GroupBox x:Name="groupBox1" Header="Megrendelt Bicikli Felvétele" HorizontalAlignment="Left" Margin="28,367,0,0" VerticalAlignment="Top" Height="188" Width="346">
+                        <Label x:Name="label2" Content="Típus:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    </GroupBox>
+                    <ComboBox x:Name="biciklitipus" HorizontalAlignment="Left" Margin="93,396,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Biketipusok}"/>
+                    <Label x:Name="label3" Content="Darab:" HorizontalAlignment="Left" Margin="44,430,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="darab" HorizontalAlignment="Left" Height="23" Margin="93,431,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" PreviewTextInput="csakszam"/>
+                    <Button x:Name="button" Content="Bicikli Hozzáadása" HorizontalAlignment="Left" Margin="157,473,0,0" VerticalAlignment="Top" Width="124" Height="46" IsEnabled="{Binding ElementName=biciklitipus, Path=SelectedIndex, Converter={StaticResource butconv}}" Foreground="White" Click="bike_hozzaad">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                <GradientStop Color="#FFFDFDFD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="button1" Content="Rendelés Felvétel" HorizontalAlignment="Left" Margin="379,501,0,0" VerticalAlignment="Top" Width="98" Height="45" Foreground="White" Click="ren_felvetel" IsEnabled="{Binding Rendeltbiciklik.Count, Converter={StaticResource cbool}}">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                <GradientStop Color="#FFFDFDFD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Megrendelések Állapota" BorderBrush="#FF8F8F8F">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">                    
+                    <ListBox x:Name="listBox1" HorizontalAlignment="Left" Height="332" Margin="10,10,0,0" VerticalAlignment="Top" Width="539" ItemsSource="{Binding Megrendelesek}" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <StackPanel>
+                                        <Label ContentStringFormat="Megrendelő: {0}" Content="{Binding Rendelo}"/>
+                                        <Label Content="{Binding Status}" Foreground="{Binding Status, Converter={StaticResource statuszcolor}}"/>
+                                        <ProgressBar Height="20" Width="500" Minimum="0" Maximum="{Binding Bikemennyi}" Value="{Binding Hanyvankesz}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Szerelők aktivitása" BorderBrush="#FF8F8F8F">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>                   
+                </TabItem.Background>
+                <local:KimutatasGraffikon></local:KimutatasGraffikon>
+            </TabItem>
+            <TabItem Header="Üzenetek" BorderBrush="#FF8F8F8F">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="White"/>
+                        <GradientStop Color="#FF595858" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                    <GroupBox x:Name="groupBox2" Header="Bejövő üzenetek" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="190" Width="420">
+                        <ListBox x:Name="listBox2" HorizontalAlignment="Left" Height="154" Margin="10,10,0,0" VerticalAlignment="Top" Width="348" ItemsSource="{Binding Bejovouzik}" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <WrapPanel>
+                                            <Label ContentStringFormat="Felado: {0}" Content="{Binding Felado}"/>
+                                            <Label Content="{Binding KuldesDatuma}"/>
+                                        </WrapPanel>
+                                        <Label ContentStringFormat="Üzenet: {0}" Content="{Binding Targy}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox2_Copy" Header="Kimenő üzenetek" HorizontalAlignment="Left" Margin="10,205,0,0" VerticalAlignment="Top" Height="193" Width="420">
+                        <ListBox x:Name="listBox3" HorizontalAlignment="Left" Height="153" Margin="10,10,0,0" VerticalAlignment="Top" Width="348" ItemsSource="{Binding Kimenouzik}" Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <WrapPanel>
+                                            <Label ContentStringFormat="Címzett: {0}" Content="{Binding Cimzett}"/>
+                                            <Label Content="{Binding KuldesDatuma}"/>
+                                        </WrapPanel>
+                                        <Label ContentStringFormat="Üzenet: {0}" Content="{Binding Targy}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </GroupBox>
+                    <GroupBox x:Name="groupBox3" Header="Új üzenet" HorizontalAlignment="Left" Margin="10,403,0,0" VerticalAlignment="Top" Height="170" Width="420">
+                        <Label x:Name="label4" Content="Címzett:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    </GroupBox>
+                    <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="84,431,0,0" VerticalAlignment="Top" Width="161" ItemsSource="{Binding Kolegak}"/>
+                    <Label x:Name="label5" Content="Szöveg:" HorizontalAlignment="Left" Margin="27,468,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="90" Margin="85,471,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="236"/>
+                    <Button x:Name="button2" Content="Küldés" HorizontalAlignment="Left" Margin="335,485,0,0" VerticalAlignment="Top" Width="78" Height="41" Foreground="White" Click="kuldes">
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF7C7C7C" Offset="0"/>
+                                <GradientStop Color="#FFFDFDFD" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                    </Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="label" Content="Név:" HorizontalAlignment="Left" Height="26.593" Margin="42.41,10,0,0" VerticalAlignment="Top" Width="52.354" Foreground="White"/>
+        <Label x:Name="label_Copy1" Content="{Binding Felhasznalo.Nev}" HorizontalAlignment="Left" Height="26.593" Margin="110.554,10,0,0" VerticalAlignment="Top" Width="143.767" Foreground="White"/>
+        <Label x:Name="label_Copy3" Content="Beosztás:" Height="26.593" Margin="0,10,175.63,0" VerticalAlignment="Top" Foreground="White" HorizontalAlignment="Right" Width="63.157"/>
+        <Label x:Name="label_Copy4" Content="{Binding Felhasznalo.Privilege}" Height="26.593" Margin="0,10,44.354,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="115.512" Foreground="White"/>
+    </Grid>
+</Window>

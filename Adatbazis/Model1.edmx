@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TITAN_KEREKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BiciklikRendelesre">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="RENDID" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TIPUS" Type="varchar" MaxLength="100" />
+          <Property Name="STATUSZ" Type="numeric" Precision="1" Scale="0" />
+        </EntityType>
+        <EntityType Name="Bike">
+          <Key>
+            <PropertyRef Name="TIPUS" />
+          </Key>
+          <Property Name="TIPUS" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BikeAlkatreszek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="TIPUS" Type="varchar" MaxLength="100" />
+          <Property Name="VAZ" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="KEREK" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="KORMANY" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="MEREVVILLA" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="BOWDEN" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="PEDAL" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="NYEREG" Type="numeric" Precision="2" Scale="0" />
+          <Property Name="TELESZKOP" Type="numeric" Precision="2" Scale="0" />
+        </EntityType>
+        <EntityType Name="Felhasznalo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="NEV" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BEOSZTAS" Type="varchar" MaxLength="100" />
+          <Property Name="FelhasznaloNev" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Jelszo" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kimutatas">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="NEV" Type="varchar" MaxLength="100" />
+          <Property Name="MENNYISEG" Type="numeric" Precision="3" Scale="0" />
+        </EntityType>
+        <EntityType Name="Raktar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="VAZ" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="KEREK" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="KORMANY" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="MEREVVILLA" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="BOWDEN" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="PEDAL" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="NYEREG" Type="numeric" Precision="20" Scale="0" />
+          <Property Name="TELESZKOP" Type="numeric" Precision="20" Scale="0" />
+        </EntityType>
+        <EntityType Name="Rendelesek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="NEV" Type="varchar" MaxLength="100" />
+          <Property Name="STATUSZ" Type="numeric" Precision="1" Scale="0" />
+          <Property Name="OPERATOR" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Uzenetek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="numeric" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="FELADO" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CIMZETT" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="KULDESDATUM" Type="date" />
+          <Property Name="KOZLEMENY" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <Association Name="megszoritas">
+          <End Role="Bike" Type="Self.Bike" Multiplicity="0..1" />
+          <End Role="BikeAlkatreszek" Type="Self.BikeAlkatreszek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bike">
+              <PropertyRef Name="TIPUS" />
+            </Principal>
+            <Dependent Role="BikeAlkatreszek">
+              <PropertyRef Name="TIPUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TITAN_KEREKModelStoreContainer">
+          <EntitySet Name="BiciklikRendelesre" EntityType="Self.BiciklikRendelesre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bike" EntityType="Self.Bike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BikeAlkatreszek" EntityType="Self.BikeAlkatreszek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Felhasznalo" EntityType="Self.Felhasznalo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kimutatas" EntityType="Self.Kimutatas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Raktar" EntityType="Self.Raktar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rendelesek" EntityType="Self.Rendelesek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uzenetek" EntityType="Self.Uzenetek" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="megszoritas" Association="Self.megszoritas">
+            <End Role="Bike" EntitySet="Bike" />
+            <End Role="BikeAlkatreszek" EntitySet="BikeAlkatreszek" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TITAN_KEREKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BiciklikRendelesre">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="RENDID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TIPUS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="STATUSZ" Type="Decimal" Precision="1" Scale="0" />
+        </EntityType>
+        <EntityType Name="Bike">
+          <Key>
+            <PropertyRef Name="TIPUS" />
+          </Key>
+          <Property Name="TIPUS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="BikeAlkatreszeks" Relationship="Self.megszoritas" FromRole="Bike" ToRole="BikeAlkatreszek" />
+        </EntityType>
+        <EntityType Name="BikeAlkatreszek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="TIPUS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VAZ" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="KEREK" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="KORMANY" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="MEREVVILLA" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="BOWDEN" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="PEDAL" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="NYEREG" Type="Decimal" Precision="2" Scale="0" />
+          <Property Name="TELESZKOP" Type="Decimal" Precision="2" Scale="0" />
+          <NavigationProperty Name="Bike" Relationship="Self.megszoritas" FromRole="BikeAlkatreszek" ToRole="Bike" />
+        </EntityType>
+        <EntityType Name="Felhasznalo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="NEV" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BEOSZTAS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FelhasznaloNev" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Jelszo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kimutata">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="NEV" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MENNYISEG" Type="Decimal" Precision="3" Scale="0" />
+        </EntityType>
+        <EntityType Name="Raktar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="VAZ" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="KEREK" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="KORMANY" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="MEREVVILLA" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="BOWDEN" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="PEDAL" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="NYEREG" Type="Decimal" Precision="20" Scale="0" />
+          <Property Name="TELESZKOP" Type="Decimal" Precision="20" Scale="0" />
+        </EntityType>
+        <EntityType Name="Rendelesek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="2" Scale="0" Nullable="false" />
+          <Property Name="NEV" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="STATUSZ" Type="Decimal" Precision="1" Scale="0" />
+          <Property Name="OPERATOR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Uzenetek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Decimal" Precision="4" Scale="0" Nullable="false" />
+          <Property Name="FELADO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CIMZETT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="KULDESDATUM" Type="DateTime" Precision="0" />
+          <Property Name="KOZLEMENY" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="megszoritas">
+          <End Role="Bike" Type="Self.Bike" Multiplicity="0..1" />
+          <End Role="BikeAlkatreszek" Type="Self.BikeAlkatreszek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bike">
+              <PropertyRef Name="TIPUS" />
+            </Principal>
+            <Dependent Role="BikeAlkatreszek">
+              <PropertyRef Name="TIPUS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TITAN_KEREKEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BiciklikRendelesres" EntityType="Self.BiciklikRendelesre" />
+          <EntitySet Name="Bikes" EntityType="Self.Bike" />
+          <EntitySet Name="BikeAlkatreszeks" EntityType="Self.BikeAlkatreszek" />
+          <EntitySet Name="Felhasznaloes" EntityType="Self.Felhasznalo" />
+          <EntitySet Name="Kimutatas" EntityType="Self.Kimutata" />
+          <EntitySet Name="Raktars" EntityType="Self.Raktar" />
+          <EntitySet Name="Rendeleseks" EntityType="Self.Rendelesek" />
+          <EntitySet Name="Uzeneteks" EntityType="Self.Uzenetek" />
+          <AssociationSet Name="megszoritas" Association="Self.megszoritas">
+            <End Role="Bike" EntitySet="Bikes" />
+            <End Role="BikeAlkatreszek" EntitySet="BikeAlkatreszeks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TITAN_KEREKModelStoreContainer" CdmEntityContainer="TITAN_KEREKEntities">
+          <EntitySetMapping Name="BiciklikRendelesres">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.BiciklikRendelesre">
+              <MappingFragment StoreEntitySet="BiciklikRendelesre">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RENDID" ColumnName="RENDID" />
+                <ScalarProperty Name="TIPUS" ColumnName="TIPUS" />
+                <ScalarProperty Name="STATUSZ" ColumnName="STATUSZ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bikes">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.Bike">
+              <MappingFragment StoreEntitySet="Bike">
+                <ScalarProperty Name="TIPUS" ColumnName="TIPUS" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BikeAlkatreszeks">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.BikeAlkatreszek">
+              <MappingFragment StoreEntitySet="BikeAlkatreszek">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TIPUS" ColumnName="TIPUS" />
+                <ScalarProperty Name="VAZ" ColumnName="VAZ" />
+                <ScalarProperty Name="KEREK" ColumnName="KEREK" />
+                <ScalarProperty Name="KORMANY" ColumnName="KORMANY" />
+                <ScalarProperty Name="MEREVVILLA" ColumnName="MEREVVILLA" />
+                <ScalarProperty Name="BOWDEN" ColumnName="BOWDEN" />
+                <ScalarProperty Name="PEDAL" ColumnName="PEDAL" />
+                <ScalarProperty Name="NYEREG" ColumnName="NYEREG" />
+                <ScalarProperty Name="TELESZKOP" ColumnName="TELESZKOP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Felhasznaloes">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.Felhasznalo">
+              <MappingFragment StoreEntitySet="Felhasznalo">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NEV" ColumnName="NEV" />
+                <ScalarProperty Name="BEOSZTAS" ColumnName="BEOSZTAS" />
+                <ScalarProperty Name="FelhasznaloNev" ColumnName="FelhasznaloNev" />
+                <ScalarProperty Name="Jelszo" ColumnName="Jelszo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kimutatas">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.Kimutata">
+              <MappingFragment StoreEntitySet="Kimutatas">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NEV" ColumnName="NEV" />
+                <ScalarProperty Name="MENNYISEG" ColumnName="MENNYISEG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Raktars">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.Raktar">
+              <MappingFragment StoreEntitySet="Raktar">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="VAZ" ColumnName="VAZ" />
+                <ScalarProperty Name="KEREK" ColumnName="KEREK" />
+                <ScalarProperty Name="KORMANY" ColumnName="KORMANY" />
+                <ScalarProperty Name="MEREVVILLA" ColumnName="MEREVVILLA" />
+                <ScalarProperty Name="BOWDEN" ColumnName="BOWDEN" />
+                <ScalarProperty Name="PEDAL" ColumnName="PEDAL" />
+                <ScalarProperty Name="NYEREG" ColumnName="NYEREG" />
+                <ScalarProperty Name="TELESZKOP" ColumnName="TELESZKOP" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rendeleseks">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.Rendelesek">
+              <MappingFragment StoreEntitySet="Rendelesek">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NEV" ColumnName="NEV" />
+                <ScalarProperty Name="STATUSZ" ColumnName="STATUSZ" />
+                <ScalarProperty Name="OPERATOR" ColumnName="OPERATOR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uzeneteks">
+            <EntityTypeMapping TypeName="TITAN_KEREKModel.Uzenetek">
+              <MappingFragment StoreEntitySet="Uzenetek">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FELADO" ColumnName="FELADO" />
+                <ScalarProperty Name="CIMZETT" ColumnName="CIMZETT" />
+                <ScalarProperty Name="KULDESDATUM" ColumnName="KULDESDATUM" />
+                <ScalarProperty Name="KOZLEMENY" ColumnName="KOZLEMENY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
